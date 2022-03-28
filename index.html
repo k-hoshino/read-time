@@ -1,9 +1,15 @@
-<html>
+<html lang=“ja”>
+<head>
+<meta http-equiv="content-language" content="ja">
+<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8">
+<title>じかんよみあげ</title>
+</head>
+<body>
 <h1 id="time"></h1>
 <input onClick="startTimeRead" value="じかんよみあげ"><br>
 <br>
 <input onClick="startTimeStop" value="とめる">
-
 
 <script>
 var speakWord = (word, isSentens)=>{
@@ -43,6 +49,6 @@ startTimeRead = ()=>{
 stopTimeRead = ()=>{
   clearInterval(timer);
 }
-
 </script>
+</body>
 </html>
