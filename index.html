@@ -1,0 +1,48 @@
+<html>
+<h1 id="time"></h1>
+<input onClick="startTimeRead" value="じかんよみあげ"><br>
+<br>
+<input onClick="startTimeStop" value="とめる">
+
+
+<script>
+var speakWord = (word, isSentens)=>{
+	var speak   = new SpeechSynthesisUtterance();
+  speak.text  = word,
+  speak.rate  = isSentens || word < 2 ? 1: 2; // 読み上げ速度 0.1-10 初期値:1 (倍速なら2, 半分の倍速なら0.5, )
+  speak.pitch = 1;　// 声の高さ 0-2 初期値:1(0で女性の声) 
+  speak.lang  = 'ja-JP';
+	speechSynthesis.speak(speak);  
+}
+
+timeNow = ()=>{
+	var d = new Date();
+	var h = d.getHours(), m=d.getMinutes(), s=d.getSeconds(); 
+  d.setSeconds(s + 1); // 1秒ラグるので早くしておく
+	s=d.getSeconds();
+  console.log(h, m, s)
+  setText([h, m, s].join(":"))
+  if(m % 60 ==0 && s % 60 == 0){ // 今の所時分秒喋ってるから一時間コールいらん
+    speakWord(h + "時ちょうどです");
+  } else if(s % 60 ==0){
+    speakWord(h + "時" + (m+1) + "分" + "です", true);
+  } else if (s > 2){ // 2秒以下はしゃべらない
+    speakWord(s + (s == 3? "秒": ""));
+  }
+}
+setText = (word)=>{
+  document.querySelectorAll("#time").value = word;
+}
+
+var timer = 0;
+startTimeRead = ()=>{
+  stopTimeRead();
+  timer = setInterval(timeNow, 1000);
+}
+
+stopTimeRead = ()=>{
+  clearInterval(timer);
+}
+
+</script>
+</html>
